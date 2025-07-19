@@ -23,7 +23,7 @@ function registerUser(event) {
     password: form.password.value
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbyiYNyfIQIjQ-rC5m9IQqZUuk2KTwo1lYFeVjQu4itCSOlYBHMsElo21dodaupMMQyu/exec", 
+  fetch("https://script.google.com/macros/s/AKfy******upMMQyu/exec", 
     {
     method: "POST",
     headers: {
