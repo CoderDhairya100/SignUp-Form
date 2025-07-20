@@ -1,43 +1,46 @@
-
-/* ----To switch between Login and Register Forms---- */
-
 function showForm(formId) {
-    document.querySelectorAll(".form-box").forEach(form => form.classList.remove("active"));
-    document.getElementById(formId).classList.add("active");
+  document.querySelectorAll(".form-box").forEach(form =>
+    form.classList.remove("active")
+  );
+  document.getElementById(formId).classList.add("active");
 }
-
-/*----To connect html form with google Sheet---- */
-
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.querySelector('#registerForm form');
-
-  form.addEventListener('submit', registerUser);
 
 function registerUser(event) {
   event.preventDefault();
 
   const form = event.target;
+  const name = form.name.value.trim();
+  const email = form.email.value.trim();
+  const password = form.password.value.trim();
+
+  const scriptURL = "https://dark-heart-3d47.kanakbpandey2014.workers.dev/";
+
   const data = {
-    name: form.name.value,
-    email: form.email.value,
-    password: form.password.value
+    name,
+    email,
+    password
   };
 
-  fetch("https://script.google.com/macros/s/AKfy******upMMQyu/exec", 
-    {
+  fetch(scriptURL, {
     method: "POST",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
   })
-  .then(res => res.json())
-  .then(response => {
-    alert("Registration Successful!");
-    form.reset();
-  })
-  .catch(error => {
-    alert("Registration failed: " + error);
-  });
+    .then(async res => {
+      const response = await res.json();
+      if (response.message === "Subscribed successfully!") {
+        alert("✅ Registration Successful!");
+        form.reset();
+        showForm("login-form");
+      } else {
+        alert("⚠️ Something went wrong. Please try again.");
+      }
+    })
+    .catch(error => {
+      console.error("Fetch error:", error);
+      alert("❌ Registration failed: " + error.message);
+    });
 }
-});
