@@ -36,7 +36,7 @@ function registerUser(event) {
         form.reset();
         showForm("login-form");
       } else {
-        alert("⚠️ Something went wrong. Please try again.");
+        alert("⚠️ Email already Exists.");
       }
     })
     .catch(error => {
